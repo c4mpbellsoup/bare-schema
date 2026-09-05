@@ -20,11 +20,11 @@ export type Header = {
   visible?: boolean;
 };
 export type ID = string;
-export type Href = string;
+export type HREF = string;
 export type Menu = {
   id: ID;
   label: Label;
-  href: Href;
+  href: HREF;
 }[];
 export type HeaderSection =
   | {
@@ -37,6 +37,13 @@ export type HeaderSection =
       [k: string]: unknown;
     };
 export type ContentWidth = "full" | "contained";
+export type Section = Hero;
+export type Hero = {
+  type: "hero";
+} & (StandardHero | CarouselHero);
+export type StandardHero = BaseHero & {
+  variant: "standard";
+};
 
 /**
  * The schema for a Bare Site.
@@ -86,10 +93,9 @@ export interface Page {
    */
   route: string;
   title: Label;
-  sections: Hero[];
+  sections: Section[];
 }
-export interface Hero {
-  type: "hero";
+export interface BaseHero {
   image: string;
   heading: string;
   subheading?: string;
@@ -97,8 +103,11 @@ export interface Hero {
 }
 export interface Action {
   label: Label;
-  href: Href;
-  [k: string]: unknown;
+  href: HREF;
+}
+export interface CarouselHero {
+  variant: "carousel";
+  pages: BaseHero[];
 }
 /**
  * The schema for a Bare Site theme.
